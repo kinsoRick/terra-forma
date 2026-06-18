@@ -18,7 +18,6 @@ async function initApp() {
         fillHeader(data);
         fillAbout(data);
         fillProduct(data);
-        fillFooter(data);
         initCart(data);
         initQtyInline(data);
         createParticles();
@@ -243,27 +242,7 @@ function initCart() {
     };
 }
 
-// ──────────────────────────────
-// Footer
-// ──────────────────────────────
-function fillFooter(data) {
-    const c = data.company;
-    document.getElementById('footer-logo').textContent = c.name;
-    document.getElementById('footer-phone').textContent = c.contacts.phone;
-    document.getElementById('footer-phone').href = `tel:${c.contacts.phone.replace(/\D/g, '')}`;
-    document.getElementById('footer-email').textContent = c.contacts.email;
-    document.getElementById('footer-email').href = `mailto:${c.contacts.email}`;
 
-    const div = document.getElementById('team-links');
-    data.team.forEach(member => {
-        const a = document.createElement('a');
-        a.href = member.vk;
-        a.textContent = member.name;
-        a.target = '_blank';
-        a.rel = 'noopener';
-        div.appendChild(a);
-    });
-}
 
 // ──────────────────────────────
 // Gallery thumbs

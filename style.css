@@ -1412,9 +1412,9 @@ footer::before {
 }
 
 .footer-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
     padding-top: 80px;
     padding-bottom: 80px;
 }
@@ -1451,44 +1451,7 @@ footer::before {
     color: var(--accent);
 }
 
-.footer-social-title {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--text-muted);
-    margin-bottom: 18px;
-    font-weight: 600;
-}
 
-.social-links {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.social-links a {
-    font-size: 0.88rem;
-    color: var(--text-dim);
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.social-links a::before {
-    content: 'ВК';
-    font-size: 0.6rem;
-    font-weight: 700;
-    background: var(--accent-dim);
-    color: var(--accent);
-    padding: 2px 5px;
-    border-radius: 4px;
-    border: 1px solid rgba(122, 182, 72, 0.25);
-}
-
-.social-links a:hover {
-    color: var(--accent);
-}
 
 .footer-bottom {
     border-top: 1px solid var(--glass-border);
@@ -1591,8 +1554,9 @@ footer::before {
     }
 
     .footer-inner {
-        grid-template-columns: 1fr;
-        gap: 40px;
+        flex-direction: column;
+        padding-top: 60px;
+        padding-bottom: 60px;
     }
 
     .about-stats {
