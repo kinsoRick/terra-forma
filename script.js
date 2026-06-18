@@ -328,29 +328,52 @@ function initCarousel() {
 
     // Swipe support
     let startX = 0;
+    let startY = 0;
     let isSwiping = false;
+    let isDragging = false;
 
     track.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
         isSwiping = true;
+        isDragging = false;
         track.style.transition = 'none';
     }, { passive: true });
 
     track.addEventListener('touchmove', (e) => {
         if (!isSwiping) return;
         const currentX = e.touches[0].clientX;
-        const diff = startX - currentX;
+        const currentY = e.touches[0].clientY;
+        const diffX = startX - currentX;
+        const diffY = startY - currentY;
         
-        // Add some resistance at the edges
-        let translateX = -(currentIndex * 100) - (diff / track.offsetWidth * 100);
-        if (currentIndex === 0 && diff < 0) {
-            translateX = -(diff / track.offsetWidth * 30);
-        } else if (currentIndex === total - 1 && diff > 0) {
-            translateX = -(currentIndex * 100) - (diff / track.offsetWidth * 30);
+        // If scrolling vertically, let the browser handle it
+        if (Math.abs(diffY) > Math.abs(diffX) && !isDragging) {
+            isSwiping = false;
+            return;
         }
-        
-        track.style.transform = `translateX(${translateX}%)`;
-    }, { passive: true });
+
+        if (Math.abs(diffX) > 10) {
+            isDragging = true; // User is actually swiping horizontally
+        }
+
+        if (isDragging) {
+            // Add some resistance at the edges
+            let translateX = -(currentIndex * 100) - (diffX / track.offsetWidth * 100);
+            if (currentIndex === 0 && diffX < 0) {
+                translateX = -(diffX / track.offsetWidth * 30);
+            } else if (currentIndex === total - 1 && diffX > 0) {
+                translateX = -(currentIndex * 100) - (diffX / track.offsetWidth * 30);
+            }
+            
+            track.style.transform = `translateX(${translateX}%)`;
+            
+            // Prevent default behavior when actively swiping horizontally to stop pull-to-refresh / history swipe
+            if (e.cancelable) {
+                e.preventDefault();
+            }
+        }
+    }, { passive: false });
 
     track.addEventListener('touchend', (e) => {
         if (!isSwiping) return;
@@ -358,21 +381,30 @@ function initCarousel() {
         track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
         
         const endX = e.changedTouches[0].clientX;
-        const diff = startX - endX;
+        const diffX = startX - endX;
 
-        if (Math.abs(diff) > 50) { // Threshold for swipe
-            if (diff > 0 && currentIndex < total - 1) {
+        if (isDragging && Math.abs(diffX) > 40) { // Threshold for swipe
+            if (diffX > 0 && currentIndex < total - 1) {
                 currentIndex++;
-            } else if (diff < 0 && currentIndex > 0) {
+            } else if (diffX < 0 && currentIndex > 0) {
                 currentIndex--;
             }
         }
         updateCarousel();
+        
+        // Reset dragging state slightly later to catch the click event
+        setTimeout(() => {
+            isDragging = false;
+        }, 50);
     });
 
     // Fullscreen viewer
     slides.forEach(slide => {
-        slide.addEventListener('click', () => {
+        slide.addEventListener('click', (e) => {
+            if (isDragging) {
+                e.preventDefault();
+                return; // Don't open if user was swiping
+            }
             const img = slide.querySelector('img');
             const title = slide.getAttribute('data-title');
             
