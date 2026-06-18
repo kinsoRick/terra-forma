@@ -214,47 +214,13 @@
             <p class="blueprints-intro">Полный комплект проектной документации. Листайте карусель для просмотра всех чертежей.</p>
         </div>
 
-        <div class="bp-carousel" id="bp-carousel">
-            <div class="bp-carousel-track" id="bp-carousel-track">
-                <div class="bp-slide" data-title="Изометрия">
-                    <img src="assets/blueprints/изометрия 3.png" alt="Чертёж — Изометрия" loading="lazy">
-                    <div class="bp-slide-label">Изометрия</div>
-                </div>
-                <div class="bp-slide" data-title="Вид сверху">
-                    <img src="assets/blueprints/чертеж вид сверху.png" alt="Чертёж — Вид сверху" loading="lazy">
-                    <div class="bp-slide-label">Вид сверху</div>
-                </div>
-                <div class="bp-slide" data-title="Вид спереди">
-                    <img src="assets/blueprints/чертеж вид спереди.png" alt="Чертёж — Вид спереди" loading="lazy">
-                    <div class="bp-slide-label">Вид спереди</div>
-                </div>
-                <div class="bp-slide" data-title="Вид слева">
-                    <img src="assets/blueprints/чертеж вид слева.png" alt="Чертёж — Вид слева" loading="lazy">
-                    <div class="bp-slide-label">Вид слева</div>
-                </div>
-                <div class="bp-slide" data-title="Вид справа">
-                    <img src="assets/blueprints/чертеж вид справа.png" alt="Чертёж — Вид справа" loading="lazy">
-                    <div class="bp-slide-label">Вид справа</div>
-                </div>
-                <div class="bp-slide" data-title="Вид сзади">
-                    <img src="assets/blueprints/чертеж вид чзади.png" alt="Чертёж — Вид сзади" loading="lazy">
-                    <div class="bp-slide-label">Вид сзади</div>
-                </div>
-            </div>
-
-            <!-- Navigation arrows -->
-            <button class="bp-arrow bp-arrow-prev" id="bp-prev" aria-label="Предыдущий чертёж">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-            <button class="bp-arrow bp-arrow-next" id="bp-next" aria-label="Следующий чертёж">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 6 15 12 9 18"/></svg>
-            </button>
-
-            <!-- Dots -->
-            <div class="bp-dots" id="bp-dots"></div>
-
-            <!-- Counter -->
-            <div class="bp-counter"><span id="bp-current">1</span> / <span id="bp-total">6</span></div>
+        <div class="blueprints-grid">
+            <button class="btn btn-outline" onclick="openBlueprint('assets/blueprints/изометрия 3.png', 'Изометрия')">Изометрия</button>
+            <button class="btn btn-outline" onclick="openBlueprint('assets/blueprints/чертеж вид сверху.png', 'Вид сверху')">Вид сверху</button>
+            <button class="btn btn-outline" onclick="openBlueprint('assets/blueprints/чертеж вид спереди.png', 'Вид спереди')">Вид спереди</button>
+            <button class="btn btn-outline" onclick="openBlueprint('assets/blueprints/чертеж вид слева.png', 'Вид слева')">Вид слева</button>
+            <button class="btn btn-outline" onclick="openBlueprint('assets/blueprints/чертеж вид справа.png', 'Вид справа')">Вид справа</button>
+            <button class="btn btn-outline" onclick="openBlueprint('assets/blueprints/чертеж вид чзади.png', 'Вид сзади')">Вид сзади</button>
         </div>
 
         <!-- Fullscreen viewer -->

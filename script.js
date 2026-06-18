@@ -275,151 +275,17 @@ function setMainImg(thumb) {
 }
 
 // ──────────────────────────────
-// Blueprint Carousel Logic
+// Blueprint Viewer Logic
 // ──────────────────────────────
-function initCarousel() {
-    const track = document.getElementById('bp-carousel-track');
-    const slides = document.querySelectorAll('.bp-slide');
-    const btnPrev = document.getElementById('bp-prev');
-    const btnNext = document.getElementById('bp-next');
-    const dotsContainer = document.getElementById('bp-dots');
-    const curEl = document.getElementById('bp-current');
-    const totEl = document.getElementById('bp-total');
-
-    if (!track || slides.length === 0) return;
-
-    let currentIndex = 0;
-    const total = slides.length;
-    totEl.textContent = total;
-
-    // Create dots
-    slides.forEach((_, i) => {
-        const dot = document.createElement('button');
-        dot.className = 'bp-dot';
-        dot.setAttribute('aria-label', `Слайд ${i + 1}`);
-        dot.addEventListener('click', () => goToSlide(i));
-        dotsContainer.appendChild(dot);
-    });
-    const dots = document.querySelectorAll('.bp-dot');
-
-    function updateCarousel() {
-        track.style.transform = `translateX(-${currentIndex * 100}%)`;
-        curEl.textContent = currentIndex + 1;
-        dots.forEach((d, i) => {
-            d.classList.toggle('active', i === currentIndex);
-        });
-        
-        // Hide/show arrows at ends
-        btnPrev.style.opacity = currentIndex === 0 ? '0.3' : '1';
-        btnPrev.style.pointerEvents = currentIndex === 0 ? 'none' : 'auto';
-        
-        btnNext.style.opacity = currentIndex === total - 1 ? '0.3' : '1';
-        btnNext.style.pointerEvents = currentIndex === total - 1 ? 'none' : 'auto';
-    }
-
-    function goToSlide(index) {
-        if (index < 0 || index >= total) return;
-        currentIndex = index;
-        updateCarousel();
-    }
-
-    btnPrev.addEventListener('click', () => goToSlide(currentIndex - 1));
-    btnNext.addEventListener('click', () => goToSlide(currentIndex + 1));
-
-    // Swipe support
-    let startX = 0;
-    let startY = 0;
-    let isSwiping = false;
-    let isDragging = false;
-
-    track.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX;
-        startY = e.touches[0].clientY;
-        isSwiping = true;
-        isDragging = false;
-        track.style.transition = 'none';
-    }, { passive: true });
-
-    track.addEventListener('touchmove', (e) => {
-        if (!isSwiping) return;
-        const currentX = e.touches[0].clientX;
-        const currentY = e.touches[0].clientY;
-        const diffX = startX - currentX;
-        const diffY = startY - currentY;
-        
-        // If scrolling vertically, let the browser handle it
-        if (Math.abs(diffY) > Math.abs(diffX) && !isDragging) {
-            isSwiping = false;
-            return;
-        }
-
-        if (Math.abs(diffX) > 10) {
-            isDragging = true; // User is actually swiping horizontally
-        }
-
-        if (isDragging) {
-            // Add some resistance at the edges
-            let translateX = -(currentIndex * 100) - (diffX / track.offsetWidth * 100);
-            if (currentIndex === 0 && diffX < 0) {
-                translateX = -(diffX / track.offsetWidth * 30);
-            } else if (currentIndex === total - 1 && diffX > 0) {
-                translateX = -(currentIndex * 100) - (diffX / track.offsetWidth * 30);
-            }
-            
-            track.style.transform = `translateX(${translateX}%)`;
-            
-            // Prevent default behavior when actively swiping horizontally to stop pull-to-refresh / history swipe
-            if (e.cancelable) {
-                e.preventDefault();
-            }
-        }
-    }, { passive: false });
-
-    track.addEventListener('touchend', (e) => {
-        if (!isSwiping) return;
-        isSwiping = false;
-        track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-        
-        const endX = e.changedTouches[0].clientX;
-        const diffX = startX - endX;
-
-        if (isDragging && Math.abs(diffX) > 40) { // Threshold for swipe
-            if (diffX > 0 && currentIndex < total - 1) {
-                currentIndex++;
-            } else if (diffX < 0 && currentIndex > 0) {
-                currentIndex--;
-            }
-        }
-        updateCarousel();
-        
-        // Reset dragging state slightly later to catch the click event
-        setTimeout(() => {
-            isDragging = false;
-        }, 50);
-    });
-
-    // Fullscreen viewer
-    slides.forEach(slide => {
-        slide.addEventListener('click', (e) => {
-            if (isDragging) {
-                e.preventDefault();
-                return; // Don't open if user was swiping
-            }
-            const img = slide.querySelector('img');
-            const title = slide.getAttribute('data-title');
-            
-            document.getElementById('bp-fs-img').src = img.src;
-            document.getElementById('bp-fs-title').textContent = title;
-            document.getElementById('bp-fullscreen').classList.add('open');
-            document.body.style.overflow = 'hidden';
-        });
-    });
-
-    updateCarousel();
+function openBlueprint(imgUrl, title) {
+    document.getElementById('bp-fs-img').src = imgUrl;
+    document.getElementById('bp-fs-title').textContent = title;
+    document.getElementById('bp-fullscreen').classList.add('open');
+    document.body.style.overflow = 'hidden';
 }
 
 function closeBpFullscreen(e) {
-    if (e.target.id === 'bp-fullscreen' || e.target.classList.contains('modal-close') || e.target.id === 'bp-fs-img') {
+    if (!e || e.target.id === 'bp-fullscreen' || e.target.classList.contains('modal-close') || e.target.id === 'bp-fs-img') {
         document.getElementById('bp-fullscreen').classList.remove('open');
         document.body.style.overflow = '';
         setTimeout(() => {
@@ -531,5 +397,4 @@ function initReveal() {
 document.addEventListener('DOMContentLoaded', () => {
     initApp();
     initReveal();
-    initCarousel();
 });
