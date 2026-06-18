@@ -39,8 +39,8 @@ function fillHeader(data) {
     if (iconSpan) logoEl.appendChild(iconSpan);
     logoEl.appendChild(document.createTextNode(' ' + c.name));
 
-    document.getElementById('phone-link').textContent     = c.contacts.phone;
-    document.getElementById('phone-link').href            = `tel:${c.contacts.phone.replace(/\D/g, '')}`;
+    document.getElementById('phone-link').textContent = c.contacts.phone;
+    document.getElementById('phone-link').href = `tel:${c.contacts.phone.replace(/\D/g, '')}`;
 }
 
 // ──────────────────────────────
@@ -55,11 +55,11 @@ function fillAbout(data) {
 // ──────────────────────────────
 function fillProduct(data) {
     const p = data.product;
-    document.getElementById('product-name').textContent    = p.name;
+    document.getElementById('product-name').textContent = p.name;
     document.getElementById('product-tagline').textContent = p.tagline || '';
-    document.getElementById('product-desc').textContent    = p.description;
-    document.getElementById('product-price').textContent   = p.price.toLocaleString('ru-RU');
-    document.getElementById('currency').textContent        = p.currency;
+    document.getElementById('product-desc').textContent = p.description;
+    document.getElementById('product-price').textContent = p.price.toLocaleString('ru-RU');
+    document.getElementById('currency').textContent = p.currency;
 
     // Features list
     const ul = document.getElementById('product-features');
@@ -74,12 +74,12 @@ function fillProduct(data) {
 // Inline Qty on Product Card
 // ──────────────────────────────
 function initQtyInline(data) {
-    const input  = document.getElementById('qty-inline');
+    const input = document.getElementById('qty-inline');
     const minusB = document.getElementById('minus-inline');
-    const plusB  = document.getElementById('plus-inline');
+    const plusB = document.getElementById('plus-inline');
 
     minusB.onclick = () => { if (+input.value > 1) input.value = +input.value - 1; };
-    plusB.onclick  = () => { input.value = +input.value + 1; };
+    plusB.onclick = () => { input.value = +input.value + 1; };
 
     document.getElementById('add-to-cart').onclick = () => {
         const qty = Math.max(1, parseInt(input.value) || 1);
@@ -107,26 +107,26 @@ function updateCartBadge() {
 }
 
 function updateCartSection() {
-    const emptyEl  = document.getElementById('cart-empty-state');
+    const emptyEl = document.getElementById('cart-empty-state');
     const filledEl = document.getElementById('cart-filled-state');
 
     if (cartQty === 0) {
-        emptyEl.style.display  = 'block';
+        emptyEl.style.display = 'block';
         filledEl.style.display = 'none';
         return;
     }
 
-    emptyEl.style.display  = 'none';
+    emptyEl.style.display = 'none';
     filledEl.style.display = 'block';
 
     // Fill static cart info
     document.getElementById('cart-item-name').textContent = productData.name;
-    document.getElementById('cart-img').src               = productData.image;
+    document.getElementById('cart-img').src = productData.image;
 
     // Quantity controls in cart section
-    const qInput  = document.getElementById('quantity');
-    const minusB  = document.getElementById('minus');
-    const plusB   = document.getElementById('plus');
+    const qInput = document.getElementById('quantity');
+    const minusB = document.getElementById('minus');
+    const plusB = document.getElementById('plus');
 
     qInput.value = cartQty;
 
@@ -163,14 +163,14 @@ function syncCartDisplay() {
     const price = productData.price;
 
     // Update inputs
-    document.getElementById('quantity').value      = cartQty;
+    document.getElementById('quantity').value = cartQty;
     document.getElementById('summary-qty').textContent = cartQty;
 
     // Line price
     const lineTotal = price * cartQty;
     document.getElementById('item-line-price').textContent = lineTotal.toLocaleString('ru-RU');
-    document.getElementById('total-sum').textContent       = lineTotal.toLocaleString('ru-RU');
-    document.getElementById('grand-total').textContent     = lineTotal.toLocaleString('ru-RU');
+    document.getElementById('total-sum').textContent = lineTotal.toLocaleString('ru-RU');
+    document.getElementById('grand-total').textContent = lineTotal.toLocaleString('ru-RU');
 
     updateCartBadge();
     updateCartModal();
@@ -180,9 +180,9 @@ function syncCartDisplay() {
 // Cart Modal (drawer)
 // ──────────────────────────────
 function updateCartModal() {
-    const body    = document.getElementById('cart-modal-body');
-    const footer  = document.getElementById('cart-modal-footer');
-    const total   = document.getElementById('modal-total');
+    const body = document.getElementById('cart-modal-body');
+    const footer = document.getElementById('cart-modal-footer');
+    const total = document.getElementById('modal-total');
 
     if (cartQty === 0) {
         body.innerHTML = '<p class="cart-modal-empty">Корзина пуста</p>';
@@ -225,7 +225,7 @@ function closeCartModal() {
 function initCart() {
     document.getElementById('order-form').onsubmit = e => {
         e.preventDefault();
-        const name  = document.getElementById('input-name').value.trim();
+        const name = document.getElementById('input-name').value.trim();
         const phone = document.getElementById('input-phone').value.trim();
 
         if (!name || !phone) {
@@ -248,19 +248,19 @@ function initCart() {
 // ──────────────────────────────
 function fillFooter(data) {
     const c = data.company;
-    document.getElementById('footer-logo').textContent  = c.name;
+    document.getElementById('footer-logo').textContent = c.name;
     document.getElementById('footer-phone').textContent = c.contacts.phone;
-    document.getElementById('footer-phone').href        = `tel:${c.contacts.phone.replace(/\D/g, '')}`;
+    document.getElementById('footer-phone').href = `tel:${c.contacts.phone.replace(/\D/g, '')}`;
     document.getElementById('footer-email').textContent = c.contacts.email;
-    document.getElementById('footer-email').href        = `mailto:${c.contacts.email}`;
+    document.getElementById('footer-email').href = `mailto:${c.contacts.email}`;
 
     const div = document.getElementById('team-links');
     data.team.forEach(member => {
         const a = document.createElement('a');
-        a.href        = member.vk;
+        a.href = member.vk;
         a.textContent = member.name;
-        a.target      = '_blank';
-        a.rel         = 'noopener';
+        a.target = '_blank';
+        a.rel = 'noopener';
         div.appendChild(a);
     });
 }
@@ -275,32 +275,134 @@ function setMainImg(thumb) {
 }
 
 // ──────────────────────────────
-// Blueprint Viewer
+// Blueprint Carousel Logic
 // ──────────────────────────────
-function openBlueprint(pdfUrl, title) {
-    document.getElementById('bp-modal-title').textContent = title;
-    document.getElementById('bp-iframe').src = pdfUrl;
-    document.getElementById('bp-download-link').href = pdfUrl;
-    document.getElementById('bp-overlay').classList.add('open');
-    document.getElementById('bp-modal').classList.add('open');
-    document.body.style.overflow = 'hidden';
+function initCarousel() {
+    const track = document.getElementById('bp-carousel-track');
+    const slides = document.querySelectorAll('.bp-slide');
+    const btnPrev = document.getElementById('bp-prev');
+    const btnNext = document.getElementById('bp-next');
+    const dotsContainer = document.getElementById('bp-dots');
+    const curEl = document.getElementById('bp-current');
+    const totEl = document.getElementById('bp-total');
+
+    if (!track || slides.length === 0) return;
+
+    let currentIndex = 0;
+    const total = slides.length;
+    totEl.textContent = total;
+
+    // Create dots
+    slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'bp-dot';
+        dot.setAttribute('aria-label', `Слайд ${i + 1}`);
+        dot.addEventListener('click', () => goToSlide(i));
+        dotsContainer.appendChild(dot);
+    });
+    const dots = document.querySelectorAll('.bp-dot');
+
+    function updateCarousel() {
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        curEl.textContent = currentIndex + 1;
+        dots.forEach((d, i) => {
+            d.classList.toggle('active', i === currentIndex);
+        });
+        
+        // Hide/show arrows at ends
+        btnPrev.style.opacity = currentIndex === 0 ? '0.3' : '1';
+        btnPrev.style.pointerEvents = currentIndex === 0 ? 'none' : 'auto';
+        
+        btnNext.style.opacity = currentIndex === total - 1 ? '0.3' : '1';
+        btnNext.style.pointerEvents = currentIndex === total - 1 ? 'none' : 'auto';
+    }
+
+    function goToSlide(index) {
+        if (index < 0 || index >= total) return;
+        currentIndex = index;
+        updateCarousel();
+    }
+
+    btnPrev.addEventListener('click', () => goToSlide(currentIndex - 1));
+    btnNext.addEventListener('click', () => goToSlide(currentIndex + 1));
+
+    // Swipe support
+    let startX = 0;
+    let isSwiping = false;
+
+    track.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isSwiping = true;
+        track.style.transition = 'none';
+    }, { passive: true });
+
+    track.addEventListener('touchmove', (e) => {
+        if (!isSwiping) return;
+        const currentX = e.touches[0].clientX;
+        const diff = startX - currentX;
+        
+        // Add some resistance at the edges
+        let translateX = -(currentIndex * 100) - (diff / track.offsetWidth * 100);
+        if (currentIndex === 0 && diff < 0) {
+            translateX = -(diff / track.offsetWidth * 30);
+        } else if (currentIndex === total - 1 && diff > 0) {
+            translateX = -(currentIndex * 100) - (diff / track.offsetWidth * 30);
+        }
+        
+        track.style.transform = `translateX(${translateX}%)`;
+    }, { passive: true });
+
+    track.addEventListener('touchend', (e) => {
+        if (!isSwiping) return;
+        isSwiping = false;
+        track.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        
+        const endX = e.changedTouches[0].clientX;
+        const diff = startX - endX;
+
+        if (Math.abs(diff) > 50) { // Threshold for swipe
+            if (diff > 0 && currentIndex < total - 1) {
+                currentIndex++;
+            } else if (diff < 0 && currentIndex > 0) {
+                currentIndex--;
+            }
+        }
+        updateCarousel();
+    });
+
+    // Fullscreen viewer
+    slides.forEach(slide => {
+        slide.addEventListener('click', () => {
+            const img = slide.querySelector('img');
+            const title = slide.getAttribute('data-title');
+            
+            document.getElementById('bp-fs-img').src = img.src;
+            document.getElementById('bp-fs-title').textContent = title;
+            document.getElementById('bp-fullscreen').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    updateCarousel();
 }
 
-function closeBlueprint() {
-    document.getElementById('bp-overlay').classList.remove('open');
-    document.getElementById('bp-modal').classList.remove('open');
-    document.body.style.overflow = '';
-    // Clear iframe after animation
-    setTimeout(() => {
-        document.getElementById('bp-iframe').src = '';
-    }, 400);
+function closeBpFullscreen(e) {
+    if (e.target.id === 'bp-fullscreen' || e.target.classList.contains('modal-close') || e.target.id === 'bp-fs-img') {
+        document.getElementById('bp-fullscreen').classList.remove('open');
+        document.body.style.overflow = '';
+        setTimeout(() => {
+            document.getElementById('bp-fs-img').src = '';
+        }, 300);
+    }
 }
 
-// Close blueprint modal on Escape
+// Close fullscreen on escape
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-        if (document.getElementById('bp-modal').classList.contains('open')) {
-            closeBlueprint();
+        const fs = document.getElementById('bp-fullscreen');
+        if (fs && fs.classList.contains('open')) {
+            fs.classList.remove('open');
+            document.body.style.overflow = '';
         }
     }
 });
@@ -397,4 +499,5 @@ function initReveal() {
 document.addEventListener('DOMContentLoaded', () => {
     initApp();
     initReveal();
+    initCarousel();
 });
