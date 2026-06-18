@@ -953,10 +953,9 @@ ul {
 }
 
 .blueprints-grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    justify-content: flex-start;
 }
 
 .blueprints-grid .btn {
@@ -1610,7 +1609,8 @@ footer::before {
     }
 
     .blueprints-grid {
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 1fr;
     }
 
     .blueprints-grid .btn {
